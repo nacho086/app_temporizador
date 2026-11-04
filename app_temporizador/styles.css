@@ -164,6 +164,45 @@ button:disabled {
   background: #f4f4f2;
 }
 
+.proyeccion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: -6px 0 22px;
+}
+
+.proyeccion button {
+  flex: none;
+}
+
+.ayuda {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* Modo proyección: solo se ve el tiempo restante */
+.display.pantalla-completa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: #f2f2f0;
+}
+
+.display.pantalla-completa .tiempo {
+  font-size: 16vw;
+  line-height: 1;
+}
+
+.display.pantalla-completa .estado {
+  display: none;
+}
+
 .historial ul {
   list-style: none;
   margin: 0;

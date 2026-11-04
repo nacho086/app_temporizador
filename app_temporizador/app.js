@@ -15,6 +15,7 @@
   const listaRegistro = document.getElementById("lista-registro");
   const registroVacio = document.getElementById("registro-vacio");
   const chkSonido = document.getElementById("chk-sonido");
+  const btnPantalla = document.getElementById("btn-pantalla");
 
   // Estado
   let totalMs = 0;          // tiempo asignado
@@ -206,7 +207,42 @@
     elTiempo.textContent = formatear(leerConfiguracion());
   }
 
+  // Pantalla completa (solo se muestra el bloque del tiempo)
+  function enPantallaCompleta() {
+    return document.fullscreenElement || document.webkitFullscreenElement;
+  }
+
+  function alternarPantallaCompleta() {
+    if (enPantallaCompleta()) {
+      const salir = document.exitFullscreen || document.webkitExitFullscreen;
+      if (salir) salir.call(document);
+      return;
+    }
+    const entrar = elDisplay.requestFullscreen || elDisplay.webkitRequestFullscreen;
+    if (!entrar) {
+      elEstado.textContent = "Este navegador no admite pantalla completa";
+      return;
+    }
+    const resultado = entrar.call(elDisplay);
+    if (resultado && resultado.catch) {
+      resultado.catch(function () {
+        elEstado.textContent = "No se pudo activar la pantalla completa";
+      });
+    }
+  }
+
+  function actualizarModoPantalla() {
+    elDisplay.classList.toggle("pantalla-completa", !!enPantallaCompleta());
+  }
+
+  document.addEventListener("fullscreenchange", actualizarModoPantalla);
+  document.addEventListener("webkitfullscreenchange", actualizarModoPantalla);
+
   // Eventos
+  btnPantalla.addEventListener("click", function () {
+    alternarPantallaCompleta();
+    btnPantalla.blur(); // evita que la barra espaciadora vuelva a activar el botón
+  });
   btnIniciar.addEventListener("click", iniciar);
   btnPausar.addEventListener("click", pausar);
   btnReiniciar.addEventListener("click", reiniciar);
@@ -217,14 +253,20 @@
     });
   });
 
-  // Atajo: barra espaciadora inicia/pausa (si no se está escribiendo en un campo)
+  // Atajos (si no se está escribiendo en un campo):
+  // barra espaciadora = iniciar/pausar, F = pantalla completa
   document.addEventListener("keydown", function (e) {
-    if (e.code !== "Space") return;
+    if (e.code !== "Space" && e.code !== "KeyF") return;
     const tag = document.activeElement && document.activeElement.tagName;
     if (tag === "INPUT" || tag === "BUTTON") return;
     e.preventDefault();
-    if (corriendo) pausar();
-    else iniciar();
+    if (e.code === "KeyF") {
+      alternarPantallaCompleta();
+    } else if (corriendo) {
+      pausar();
+    } else {
+      iniciar();
+    }
   });
 
   mostrarTiempoConfigurado();
