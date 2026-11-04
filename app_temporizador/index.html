@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temporizador de expositores</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="contenedor">
+    <header>
+      <h1>Temporizador de expositores</h1>
+    </header>
+
+    <section class="expositor">
+      <label for="nombre">Expositor</label>
+      <input type="text" id="nombre" placeholder="Nombre del expositor" autocomplete="off">
+    </section>
+
+    <section class="configuracion">
+      <label>Tiempo asignado</label>
+      <div class="campos-tiempo">
+        <div>
+          <input type="number" id="cfg-horas" min="0" max="99" value="0" aria-label="Horas">
+          <span>hs</span>
+        </div>
+        <div>
+          <input type="number" id="cfg-minutos" min="0" max="59" value="15" aria-label="Minutos">
+          <span>min</span>
+        </div>
+        <div>
+          <input type="number" id="cfg-segundos" min="0" max="59" value="0" aria-label="Segundos">
+          <span>seg</span>
+        </div>
+      </div>
+      <label class="opcion">
+        <input type="checkbox" id="chk-sonido" checked>
+        Alerta sonora al finalizar
+      </label>
+    </section>
+
+    <section class="display">
+      <div id="tiempo" class="tiempo" aria-live="off">00:15:00</div>
+      <div id="estado" class="estado">Listo</div>
+    </section>
+
+    <section class="controles">
+      <button id="btn-iniciar" type="button">Iniciar</button>
+      <button id="btn-pausar" type="button" disabled>Pausar</button>
+      <button id="btn-reiniciar" type="button">Reiniciar</button>
+    </section>
+
+    <section class="historial">
+      <h2>Registro</h2>
+      <ul id="lista-registro"></ul>
+      <p id="registro-vacio" class="vacio">Aún no hay registros.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
